@@ -1,4 +1,5 @@
 wso2/PropertyReader.class
 wso2/HttpHandler.class
+filters/JWTAction.class
 wso2/RequestHelper.class
 wso2/servlet.class
