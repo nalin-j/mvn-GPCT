@@ -21,6 +21,8 @@ public class PropertyReader {
     private String ssoKeyStorePassword;
     private String ssoCertAlias;
     private String ssoRedirectUrl;
+    private String trustStorePassword;
+    private String trustStoreFile;
 
 
     public PropertyReader() {
@@ -45,6 +47,8 @@ public class PropertyReader {
             this.ssoKeyStorePassword = prop.getProperty("sso_keystore_password");
             this.ssoCertAlias = prop.getProperty("sso_certificate_alias");
             this.ssoRedirectUrl = prop.getProperty("sso_redirect_url");
+            this.trustStorePassword = prop.getProperty("trust_store_password");
+            this.trustStoreFile = prop.getProperty("trust_store_file_name");
 
 
         } catch (FileNotFoundException e) {
@@ -90,6 +94,10 @@ public class PropertyReader {
     public String getSsoRedirectUrl() {
         return this.ssoRedirectUrl;
     }
+
+    public String getTrustStorePassword() { return this.trustStorePassword; }
+
+    public String getTrustStoreFile() { return this.trustStoreFile; }
 
 }
 

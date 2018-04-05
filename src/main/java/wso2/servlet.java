@@ -29,7 +29,7 @@ public class servlet extends HttpServlet {
             String strProject = req.getParameter("project").replaceAll(" ","%20");
             logger.info("Requesting backend project cards ...");
             String url = "/githubProjectCardTracker/dashboard/?project=" + strProject;
-            String backResponse = httpHandler.get(url);
+            String backResponse = httpHandler.httpsGet(url);
 
 //            response.setHeader("Access-Control-Allow-Origin", "*");
 //            response.setHeader("credentials", "same origin");
