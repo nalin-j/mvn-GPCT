@@ -1,21 +1,24 @@
 package wso2;
 
+
 import com.google.common.io.BaseEncoding;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -25,9 +28,9 @@ import java.util.Properties;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
+/*
+ * Handle get post request to backend
+ */
 public class HttpHandler {
     private static final Logger logger = Logger.getLogger(HttpHandler.class);
     private static final PropertyReader propertyReader = new PropertyReader();
@@ -43,33 +46,6 @@ public class HttpHandler {
         this.backendUrl = propertyReader.getBackendUrl();
         this.trustStorePassword = propertyReader.getTrustStorePassword();
     }
-
-//    public String get(String url) {
-//        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-//        HttpGet request = new HttpGet(this.backendUrl + url);
-//        request.addHeader("Accept", "application/json");
-//        String encodedCredentials = this.encode(this.backendUsername + ":" + this.  backendPassword);
-//        request.addHeader("Authorization", "Basic " + encodedCredentials);
-//        String responseString = null;
-//
-//        try {
-//
-//            HttpResponse response = httpClient.execute(request);
-//            if (logger.isDebugEnabled()) {
-//                logger.debug("Request successful for " + url);
-//            }
-//            responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
-//
-//        } catch (IllegalStateException e) {
-//            logger.error("The response is empty ");
-//        } catch (NullPointerException e) {
-//            logger.error("Bad request to the URL");
-//        } catch (IOException e) {
-//            logger.error("mke");
-//        }
-//
-//        return responseString;
-//    }
 
     public String httpsGet(String url) throws IOException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 ////        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
@@ -135,35 +111,6 @@ public class HttpHandler {
     }
 
 
-    public String post(String url, String object) {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost(this.backendUrl + url);
-        request.addHeader("Accept", "application/json");
-        String encodedCredentials = this.encode(this.backendUsername + ":" + this.backendPassword);
-        request.addHeader("Authorization", "Basic " + encodedCredentials);
-        request.addHeader("Content-Type", "application/json");
-        String responseString = null;
-
-        try {
-            StringEntity entity = new StringEntity(object);
-            request.setEntity(entity);
-            HttpResponse response = httpClient.execute(request);
-            if (logger.isDebugEnabled()) {
-                logger.debug("Request successful for " + url);
-            }
-            responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
-
-        } catch (IllegalStateException e) {
-            logger.error("The response is empty ");
-        } catch (NullPointerException e) {
-            logger.error("Bad request to the URL");
-        } catch (IOException e) {
-            logger.error("The request was unsuccessful with dss");
-        }
-        return responseString;
-    }
-
-
     private String encode(String text) {
         String returnString = null;
         try {
@@ -175,4 +122,3 @@ public class HttpHandler {
     }
 
 }
-
