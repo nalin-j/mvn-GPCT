@@ -90,6 +90,8 @@ public class HttpHandler {
 
         HttpGet request = new HttpGet(this.backendUrl + url);
         request.addHeader("Accept", "application/json");
+        String encodedCredentials = this.encode(this.backendUsername + ":" + this.backendPassword);
+        request.addHeader("Authorization", "Basic " + encodedCredentials);
         String responseString = null;
 
         try {
